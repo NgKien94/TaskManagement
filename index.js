@@ -1,7 +1,7 @@
 const express = require('express');
 require('dotenv').config();
 const cors = require('cors')
-
+const cookieParser = require('cookie-parser')
 
 // Configs
 
@@ -18,6 +18,7 @@ app.use(express.json());
 // Nếu dùng form-urlencoded (không cần trong JSON API thường dùng)
 app.use(express.urlencoded({ extended: true }));
 
+app.use(cookieParser())
 
 
 
