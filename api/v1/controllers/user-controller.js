@@ -33,3 +33,39 @@ module.exports.register = async (req, res) => {
     }
 
 }
+
+
+module.exports.login = async (req,res) =>{
+    const email = req.body.email;
+    const password = req.body.password;
+
+    const user = await User.findOne({
+        email: email,
+        deleted: false
+    });
+
+    if(!user){
+        res.json({
+            code: 400,
+            message: "Email is not exist"
+        })
+        return;
+    }
+
+    if(md5(password) != user.password){
+        res.json({
+            code: 400,
+            message: "Password is incorrect"
+        })
+        return;
+    }
+
+    const token = user.token
+    res.cookie("token",token);
+
+    res.json({
+        code: 200,
+        message: "Login sucess",
+        token: token
+    })
+}
